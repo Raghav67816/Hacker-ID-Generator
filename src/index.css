@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+@import "tailwindcss";
+
+@layer utilities {
+  .font-victor {
+    font-family: 'Victor Mono', monospace;
+  }
+}
+
+
+@theme{
+    --color-hhg-green: #0b6839;
+    --color-hhg-yellow: #fee101;
+    --color-hhg-accent: #ff0080;
+    --color-hhg-surface: rgb(255, 251, 232);
+
+    --font-victor: "Victor Mono", monospace;
+}
+
+@layer utilities {
+  .font-victor {
+    font-family: 'Victor Mono', monospace;
+  }
+}
+
+@keyframes marquee{
+  from{
+    transform: translateX(0%);
+  }
+
+  to{
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee{
+  display: flex;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee:hover{
+  animation-play-state: paused;
+}
+
