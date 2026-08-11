@@ -1,16 +1,53 @@
-# React + Vite
+# Hacker Adhaar Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hacker Adhaar Generator is a ID generator for hackers. This is built with respect to task requirements of [Hacker House Goa 2026, a hackathon in Goa, India].
 
-Currently, two official plugins are available:
+The website features Indian aesthetics blended with hacker vibes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![home](public/form.png)
+![card](public/card.png)
 
-## React Compiler
+## Features
+ - Hacker House Goa 2026 Hackathon Themed
+ - Tradition Indian Theme with Hacker Vibes
+ - Download ID
+ - Blazing Fast 
+ - Mobile Optimised
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+ - React
+ - Vite
+ - Tanstack (for navigation)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Development
+
+To edit this website or develop further. 
+
+ - Clone the repo
+ ```bash
+ git clone https://github.com/Raghav67816/Hacker-ID-Generator.git
+ ```
+
+ - Install NPM packages
+ ```bash
+ npm install
+ ```
+
+ - Run
+ ```bash
+ npm run dev
+ ```
+
+## Directory Structure
+```
+src
+ --- routes
+    --- __root.jsx (tanstack root)
+    --- card.jsx (the card component)
+    --- index.jsx (the main landing page)
+
+copImage.jsx (utility function to get cropped image data)
+```
+
+To configure, see `vite.config.js`. However, default configurations are enough.
