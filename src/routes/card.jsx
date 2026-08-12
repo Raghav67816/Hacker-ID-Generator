@@ -23,21 +23,24 @@ export const Route = createFileRoute('/card')({
 
 function IDCard() {
 
+  const api_key = import.meta.env.VITE_IMG_API_KEY;
+
   const navigate = useNavigate();
 
   const [number, setNumber] = useState("1234 5678 9012")
   const [title, setTitle] = useState("BUILDER");
-
+  const [imageUrl, setImgUrl] = useState("");
   const { name, skills, role, imageSrc, cropX, cropY, cropWidth, cropHeight } = Route.useSearch();
 
+  const uploadURL = 'https://api.imgbb.com/1/upload';
 
-  function donwloadID() {
+  async function donwloadID() {
     const node = document.getElementById('id-card');
     if (node == null) return;
 
     const box = node.getBoundingClientRect();
 
-    toPng(node, {
+    const imageUrl = await toPng(node, {
       cacheBust: true,
       width: box.width,
       height: box.height,
@@ -73,6 +76,21 @@ function IDCard() {
     setTitle(hackerTitles[idx]);
   }
 
+  async function handleShare(){
+
+    const requestBody = new URLSearchParams();
+    requestBody.append('key', api_key);
+    requestBody.append('image');
+
+    const data = await fetch(uploadURL, {
+      method: 'POST'
+    })
+
+    const result = await data.json();
+    let url = result.data.display_url;
+    console.log(url);
+  }
+
   useEffect(() => {
     generateIdNum();
   }, [])
@@ -95,7 +113,7 @@ function IDCard() {
             <h1 className={'text-sm'}>Hacker House Goa 2026</h1>
           </div>
 
-          <div className={'mt-4 flex justify-between'}>
+          <div className={'flex justify-between items-center'}>
             <div>
               <p className={'text-md font-bold'}>{name}</p>
               <p className={'text-sm'}>{skills}</p>
@@ -109,7 +127,7 @@ function IDCard() {
               />
             </div>
           </div>
-          <p className={'text-center mt-1 font-bold tracking-widest text-lg'}>{number}</p>
+          <p className={'text-center mt-4 font-bold tracking-widest text-lg'}>{number}</p>
         </div>
 
         {/* Buttons Section (Fixed layout positions, layers, and interactive states) */}
