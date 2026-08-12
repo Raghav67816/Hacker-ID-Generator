@@ -126,7 +126,7 @@ Caution: This website is made for educational / learning purposes and is not rel
         const customTitle = encodeURIComponent(`${name}'s Hacker Adhaar Card`);
         const customDesc = encodeURIComponent("Dept. Of Hacker, Govt of Hacker House Goa");
 
-        const nativeShareLink = `${window.location.origin}/share-card.html?img=${encodeURIComponent(imgbbRawUrl)}&name=${encodeURIComponent(name)}&skills=${encodeURIComponent(skills)}&role=${encodeURIComponent(role)}`;
+        const nativeShareLink = `${window.location.origin}/share-card.html?img=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}&skills=${encodeURIComponent(skills)}&role=${encodeURIComponent(role)}`;
 
         const encodedText = encodeURIComponent(tweetCaption);
         const encodedUrl = encodeURIComponent(nativeShareLink);
