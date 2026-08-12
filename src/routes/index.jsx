@@ -21,7 +21,6 @@ function RouteComponent() {
   const [croppedPixels, setCroppedPixels] = useState(null);
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
-    console.log(croppedArea, croppedAreaPixels);
     setCroppedPixels(croppedAreaPixels);
   }
 

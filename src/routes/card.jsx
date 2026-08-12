@@ -27,9 +27,9 @@ function IDCard() {
 
   const navigate = useNavigate();
 
+  const [isSharing, setIsSharing] = useState(false);
   const [number, setNumber] = useState("1234 5678 9012")
   const [title, setTitle] = useState("BUILDER");
-  const [imageUrl, setImgUrl] = useState("");
   const { name, skills, role, imageSrc, cropX, cropY, cropWidth, cropHeight } = Route.useSearch();
 
   const uploadURL = 'https://api.imgbb.com/1/upload';
@@ -76,19 +76,79 @@ function IDCard() {
     setTitle(hackerTitles[idx]);
   }
 
-  async function handleShare(){
+  async function handleShare() {
 
-    const requestBody = new URLSearchParams();
-    requestBody.append('key', api_key);
-    requestBody.append('image');
+    setIsSharing(true);
 
-    const data = await fetch(uploadURL, {
-      method: 'POST'
-    })
+    const node = document.getElementById('id-card');
+    if (node == null) return;
 
-    const result = await data.json();
-    let url = result.data.display_url;
-    console.log(url);
+    try {
+      const box = node.getBoundingClientRect();
+
+      const imageUrl = await toPng(node, {
+        cacheBust: true,
+        width: box.width,
+        height: box.height,
+        style: {
+          transform: 'none',
+          left: '0',
+          top: '0',
+          position: 'static',
+          margin: '0'
+        }
+      })
+
+      const base64_url = imageUrl.split(",");
+      const clean_url = base64_url.length > 1 ? base64_url[1] : base64_url[0];
+
+      const requestBody = new URLSearchParams();
+      requestBody.append('key', api_key);
+      requestBody.append('image', clean_url);
+
+      const request = await fetch(uploadURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: requestBody
+      })
+
+      if (request.ok) {
+        const result = await request.json();
+        let url = result.data.url;
+
+        const tweetCaption = `Hi Guys!!! 
+I just got my Hacker Adhaar Card from the Dept. Of Hacker, the Govt of Hacker House Goa. Go fast get yours too.
+
+Caution: This website is made for educational / learning purposes and is not related to any legal entity.`;
+
+        const customTitle = encodeURIComponent(`${name}'s Hacker Adhaar Card`);
+        const customDesc = encodeURIComponent("Dept. Of Hacker, Govt of Hacker House Goa");
+
+        const nativeShareLink = `${currentDomain}/share-card.html?img=${encodeURIComponent(imgbbRawUrl)}&name=${encodeURIComponent(name)}&skills=${encodeURIComponent(skills)}&role=${encodeURIComponent(role)}`;
+
+        const encodedText = encodeURIComponent(tweetCaption);
+        const encodedUrl = encodeURIComponent(nativeShareLink);
+
+        const baseUrl = "https://x.com/intent/tweet";
+        const targetXUrl = `${baseUrl}?text=${encodedText}&url=${encodedUrl}`;
+
+        window.open(
+          targetXUrl,
+          '_blank',
+          'width=550,height=450,resizable=yes,scrollbars=yes,location=yes'
+        );
+      }
+    }
+
+    catch (error) {
+      console.log(error);
+    }
+
+    finally {
+      setIsSharing(false);
+    }
   }
 
   useEffect(() => {
@@ -105,7 +165,7 @@ function IDCard() {
 
         <div className={'w-[41%] h-[41%] rounded-md absolute z-0'} />
 
-        <div
+        <div id={'id-card'}
           style={{ backgroundImage: "url('/stamp.png')", backgroundRepeat: 'no-repeat', backgroundSize: '30%', backgroundPosition: 'bottom 30px right 150px' }}
           className="w-[450px] h-[250px] p-6 bg-hhg-surface absolute z-10 rounded-md border-2 border-hhg-accent overflow-hidden">
           <div>
@@ -123,6 +183,7 @@ function IDCard() {
             <div className="w-[128px] h-[128px] overflow-hidden shrink-0">
               <img
                 src={imageSrc}
+                crossOrigin={'anonymous'}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -147,7 +208,14 @@ function IDCard() {
             Generate Another ID
           </button>
 
-          <button className="px-5 py-2.5 flex gap-x-2 bg-hhg-surface text-black font-bold rounded shadow-lg hover:scale-105 active:scale-95 transition-transform cursor-pointer">
+          <button
+            onClick={() => {
+              if (!isSharing) {
+                handleShare();
+                console.log("done sharing");
+              }
+            }}
+            className="px-5 py-2.5 flex gap-x-2 bg-hhg-surface text-black font-bold rounded shadow-lg hover:scale-105 active:scale-95 transition-transform cursor-pointer">
             <Share />
             <span>Share On X</span>
           </button>
