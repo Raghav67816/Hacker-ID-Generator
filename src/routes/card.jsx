@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Download, RefreshCcw, Share } from 'lucide-react'
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import download from 'downloadjs';
+import { hackerTitles } from '../titles';
 
 export const Route = createFileRoute('/card')({
   component: IDCard,
@@ -32,7 +33,7 @@ function IDCard() {
 
   function donwloadID() {
     const node = document.getElementById('id-card');
-    if(node == null) return;
+    if (node == null) return;
 
     const box = node.getBoundingClientRect();
 
@@ -67,6 +68,9 @@ function IDCard() {
 
     const finalNum = parts.join(" ");
     setNumber(finalNum);
+
+    let idx = Math.floor(Math.random() * hackerTitles.length)
+    setTitle(hackerTitles[idx]);
   }
 
   useEffect(() => {
@@ -75,7 +79,7 @@ function IDCard() {
 
   return (
     <>
-      <div style={{ backgroundImage: "url('/sunrise.png')" }} className={'w-full h-screen bg-cover bg-center relative flex items-center justify-center font-victor'}>
+      <div style={{ backgroundImage: "url('/sunrise.png')" }} className={'w-full h-screen bg-cover bg-center relative flex items-center justify-center font-victor overflow-x-auto'}>
         <div className={'w-full h-screen bg-stone-500 opacity-40'} />
         <h1 className={'text-4xl font-bold text-hhg-yellow tracking-wide absolute z-20 top-12 style-cursive drop-shadow-md'}>
           Hacker <span className='text-5xl'>का</span> Adhaar
@@ -83,34 +87,29 @@ function IDCard() {
 
         <div className={'w-[41%] h-[41%] rounded-md absolute z-0'} />
 
-        <div id={'id-card'} className={'w-[40%] h-[40%] bg-hhg-green rounded-md absolute z-10 shadow-2xl p-0 pt-8 flex flex-col justify-between items-stretch overflow-hidden'}>
-          <div style={{ backgroundImage: "url('/stamp.png')" }}
-            className={'absolute inset-0 bg-auto bg-center opacity-2 z-0 pointer-events-none'}
-          />
+        <div
+          style={{ backgroundImage: "url('/stamp.png')", backgroundRepeat: 'no-repeat', backgroundSize: '30%', backgroundPosition: 'bottom 30px right 150px' }}
+          className="w-[450px] h-[250px] p-6 bg-hhg-surface absolute z-10 rounded-md border-2 border-hhg-accent overflow-hidden">
+          <div>
+            <h1 className={'font-bold'}>Department of Hackers / हैकर्स विभाग</h1>
+            <h1 className={'text-sm'}>Hacker House Goa 2026</h1>
+          </div>
 
-          <div className={'flex justify-start items-start relative z-10 gap-8 px-4'}>
-            <div className={'w-32 h-32 relative overflow-hidden bg-neutral-800 rounded-sm shadow-md flex-shrink-0'}>
-              <img src={imageSrc}
-                alt="Profile Avatar"
-                className="w-full h-full rounded-sm shadow-md absolute inset-0 object-cover"
+          <div className={'mt-4 flex justify-between'}>
+            <div>
+              <p className={'text-md font-bold'}>{name}</p>
+              <p className={'text-sm'}>{skills}</p>
+              <p className={'text-sm'}>{role}</p>
+              <p className={'text-sm'}>{title}</p>
+            </div>
+            <div className="w-[128px] h-[128px] overflow-hidden shrink-0">
+              <img
+                src={imageSrc}
+                className="w-full h-full object-cover"
               />
             </div>
-            <div className={'flex flex-col gap-y-2 text-hhg-yellow text-sm font-medium'}>
-              <p className={'text-2xl'}>{name}</p>
-              <p>{skills}</p>
-              <p>{role}</p>
-              <p>{title}</p>
-            </div>
           </div>
-
-          <div className={'w-full flex justify-center relative border-t border-hhg-yellow z-10 pt-4'}>
-            <p className={'text-hhg-yellow text-xl font-bold tracking-widest'}>{number}</p>
-          </div>
-          <div className="-mx-8 bg-pink-500 h-6 flex items-center justify-center gap-2">
-            <span className={'text-sm text-white'}>Hacker House Goa</span>
-            <span className={'text-sm text-white'}>•</span>
-            <span className={'text-sm text-white'}>Verified Hacker</span>
-          </div>
+          <p className={'text-center mt-1 font-bold tracking-widest text-lg'}>{number}</p>
         </div>
 
         {/* Buttons Section (Fixed layout positions, layers, and interactive states) */}
@@ -122,7 +121,7 @@ function IDCard() {
 
           <button
             onClick={() => {
-              navigate({to: '/'})
+              navigate({ to: '/' })
             }}
             className="px-5 py-2.5 flex gap-x-2 bg-hhg-yellow text-hhg-green font-bold rounded shadow-lg hover:scale-105 active:scale-95 transition-transform cursor-pointer"
           >
