@@ -2,15 +2,9 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/share-card",
-      "destination": "/card?name=:name&skills=:skills&role=:role&imageSrc=:img",
-      "permanent": false,
-      "has": [
-        {
-          "type": "query",
-          "key": "img"
-        }
-      ]
+      "source": "/share-card.html",
+      "destination": "/card",
+      "permanent": false
     }
   ]
 }
