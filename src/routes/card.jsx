@@ -116,20 +116,18 @@ function IDCard() {
 
       if (request.ok) {
         const result = await request.json();
-        let url = result.data.url;
+        let url = result.data.url_viewer;
 
         const tweetCaption = `Hi Guys!!! 
-I just got my Hacker Adhaar Card from the Dept. Of Hacker, the Govt of Hacker House Goa. Go fast get yours too.
+I just got my Hacker Adhaar Card from the Dept. Of Hacker, the Govt of Hacker House Goa. Go fast get yours too. See you at Hacker House Goa. #FrameInGoa
 
 Caution: This website is made for educational / learning purposes and is not related to any legal entity.`;
 
         const customTitle = encodeURIComponent(`${name}'s Hacker Adhaar Card`);
         const customDesc = encodeURIComponent("Dept. Of Hacker, Govt of Hacker House Goa");
 
-        const nativeShareLink = `${window.location.origin}/share-card.html?img=${encodeURIComponent(url)}&name=${encodeURIComponent(name)}&skills=${encodeURIComponent(skills)}&role=${encodeURIComponent(role)}`;
-
         const encodedText = encodeURIComponent(tweetCaption);
-        const encodedUrl = encodeURIComponent(nativeShareLink);
+        const encodedUrl = encodeURIComponent(url);
 
         const baseUrl = "https://x.com/intent/tweet";
         const targetXUrl = `${baseUrl}?text=${encodedText}&url=${encodedUrl}`;
